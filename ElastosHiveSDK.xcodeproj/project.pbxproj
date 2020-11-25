@@ -165,7 +165,6 @@
 		118F2DA6250F33AB00447A0A /* RawCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118F2DA4250F33AB00447A0A /* RawCondition.swift */; };
 		118F2DAD25105C3700447A0A /* FileTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118F2DAC25105C3700447A0A /* FileTest.swift */; };
 		11C9EAE5254A637500080995 /* InsertOneResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C9EAE4254A637500080995 /* InsertOneResult.swift */; };
-		11D26F4022CA3B3300E4099A /* ElastosHiveSDK_macOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 11D26F3E22CA3B3300E4099A /* ElastosHiveSDK_macOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		11D26F4422CA3B4B00E4099A /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E573FA22C4C33400F85419 /* Dictionary.swift */; };
 		11D26F4522CA3B4B00E4099A /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E573FB22C4C33400F85419 /* String.swift */; };
 		11D26F7022CA3B8200E4099A /* HiveError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39C499422539C9C0027BDF9 /* HiveError.swift */; };
@@ -323,7 +322,6 @@
 		118F2DAC25105C3700447A0A /* FileTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTest.swift; sourceTree = "<group>"; };
 		11C9EAE4254A637500080995 /* InsertOneResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertOneResult.swift; sourceTree = "<group>"; };
 		11D26F3C22CA3B3300E4099A /* ElastosHiveSDK_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ElastosHiveSDK_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		11D26F3E22CA3B3300E4099A /* ElastosHiveSDK_macOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ElastosHiveSDK_macOS.h; sourceTree = "<group>"; };
 		11E573FA22C4C33400F85419 /* Dictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
 		11E573FB22C4C33400F85419 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		11E92CE02560D8B2007EFC95 /* FileExecutable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileExecutable.swift; sourceTree = "<group>"; };
@@ -538,14 +536,6 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		11D26F3D22CA3B3300E4099A /* ElastosHiveSDK_macOS */ = {
-			isa = PBXGroup;
-			children = (
-				11D26F3E22CA3B3300E4099A /* ElastosHiveSDK_macOS.h */,
-			);
-			path = ElastosHiveSDK_macOS;
-			sourceTree = "<group>";
-		};
 		11E573F922C4C33400F85419 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -605,7 +595,6 @@
 			children = (
 				A39C4971225399860027BDF9 /* ElastosHiveSDK */,
 				1137942A227ED9AD004A1F65 /* ElastosHiveSDKTests */,
-				11D26F3D22CA3B3300E4099A /* ElastosHiveSDK_macOS */,
 				A39C4970225399860027BDF9 /* Products */,
 				873FCFD648761A208C564AD4 /* Pods */,
 				54606D10E83E614A3F17056C /* Frameworks */,
@@ -681,7 +670,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11D26F4022CA3B3300E4099A /* ElastosHiveSDK_macOS.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

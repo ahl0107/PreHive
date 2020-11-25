@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
 
   s.name = 'PreHive'
-  s.version = '1.1'
+  s.version = '1.3'
   s.summary ='this is a test.'
   s.swift_version  = '4.2'
   s.description = 'this is a test.'
@@ -18,9 +18,15 @@ Pod::Spec.new do |s|
   s.author       = { 'did-dev' => 'liaihong@gmail.com' }
   s.platform     = :ios, '11.0'
   s.ios.deployment_target = '11.0'
-  s.source       = {'http':'https://github.com/ahl0107/TestForAnt/releases/download/release-v1.0/ElastosHiveSDK-framework.zip'}
-  s.vendored_frameworks = 'ElastosHiveSDK-framework/*.framework'
-  s.source_files = 'ElastosHiveSDK-framework/ElastosHiveSDK.framework/**/*.h'
+  s.source       = {'http':'https://github.com/ahl0107/PreHive/archive/release-v1.3.zip'}
+  s.source_files = 'ElastosHiveSDK/**/*.swift'
   s.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
   s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
+  s.dependency 'ElastosDIDSDK', '1.3'
+  s.dependency 'Alamofire','4.8.2'
+  s.dependency 'PromiseKit','6.9'
+  s.dependency 'BlueRSA', '~> 1.0'
+  s.dependency 'LoggerAPI','~> 1.7'
+  s.dependency 'KituraContracts','~> 1.1'
+  s.dependency 'BlueCryptor', '~> 1.0'
 end
