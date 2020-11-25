@@ -194,7 +194,6 @@
 		1127463224FE3386007D6356 /* ScriptClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptClient.swift; sourceTree = "<group>"; };
 		112C4DA6256C0B4A006ECB8E /* VaultHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultHelper.swift; sourceTree = "<group>"; };
 		11379429227ED9AD004A1F65 /* ElastosHiveSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ElastosHiveSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		1137942D227ED9AD004A1F65 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		11474816255E156B00D158B7 /* DApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DApp.swift; sourceTree = "<group>"; };
 		11474827255E1C7100D158B7 /* Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
 		1147482D255E27F200D158B7 /* DIDApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIDApp.swift; sourceTree = "<group>"; };
@@ -364,7 +363,6 @@
 				111CA6D7252097CB0030D39C /* DID */,
 				1170FB2825073CD60049E81D /* Resources */,
 				111D477B24EE4B0700B7462B /* Vault */,
-				1137942D227ED9AD004A1F65 /* Info.plist */,
 			);
 			path = ElastosHiveSDKTests;
 			sourceTree = "<group>";
