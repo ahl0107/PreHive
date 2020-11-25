@@ -12,9 +12,9 @@ Pod::Spec.new do |s|
   s.version = '1.3'
   s.summary ='this is a test.'
   s.swift_version  = '4.2'
-  s.description = 'this is a test.'
+  s.description = 'this is a test.00000'
   s.homepage     = 'https://github.com/ahl0107'
-  s.license      = { :type => 'MIT', :file => 'ElastosHiveSDK-framework/LICENSE' }
+  s.license      = { :type => 'MIT', :file => 'LICENSE' }
   s.author       = { 'did-dev' => 'liaihong@gmail.com' }
   s.platform     = :ios, '11.0'
   s.ios.deployment_target = '11.0'
