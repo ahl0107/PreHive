@@ -1,0 +1,14 @@
+.DS_Store
+/DerivedData
+/Build
+xcuserdata
+/Docs
+/Pods
+
+/Podfile.lock
+/Products
+/ElastosHiveSDK.xcworkspace
+/ElastosHiveSDKTests/Externals/Antlr4.framework
+/ElastosHiveSDKTests/Externals/ElastosDIDSDK.framework
+/node_modules
+/package-lock.json
