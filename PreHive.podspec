@@ -19,9 +19,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '11.0'
   s.ios.deployment_target = '11.0'
   s.source       = {'http':'https://github.com/ahl0107/PreHive/archive/release-v1.3.zip'}
-  s.source_files = 'ElastosHiveSDK/**/*.swift'
-  s.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
-  s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
+  s.source_files = 'ElastosHiveSDK/*.swift'
   s.dependency 'ElastosDIDSDK', '1.3'
   s.dependency 'Alamofire','4.8.2'
   s.dependency 'PromiseKit','6.9'
@@ -30,3 +28,4 @@ Pod::Spec.new do |s|
   s.dependency 'KituraContracts','~> 1.1'
   s.dependency 'BlueCryptor', '~> 1.0'
 end
+
