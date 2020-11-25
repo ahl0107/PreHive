@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
 
   s.name = 'PreHive'
-  s.version = '1.4'
+  s.version = '1.5'
   s.summary ='this is a test.'
   s.swift_version  = '4.2'
   s.description = 'this is a test.00000'
@@ -18,8 +18,8 @@ Pod::Spec.new do |s|
   s.author       = { 'did-dev' => 'liaihong@gmail.com' }
   s.platform     = :ios, '11.0'
   s.ios.deployment_target = '11.0'
-  s.source       = {'http':'https://github.com/ahl0107/PreHive/archive/release-1.4.zip'}
-  s.source_files = 'ElastosHiveSDK/*.swift'
+  s.source       = {:git => 'https://github.com/ahl0107/PreHive.git', :tag => s.version}
+  s.source_files = 'ElastosHiveSDK/*'
   s.dependency 'Alamofire','4.8.2'
   s.dependency 'PromiseKit','6.9'
   s.dependency 'BlueRSA', '~> 1.0'
