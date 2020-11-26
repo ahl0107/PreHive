@@ -169,7 +169,7 @@ public class FileReader: NSObject, URLSessionDelegate, URLSessionTaskDelegate, U
                 self.task?.cancel()
                 return
             }
-            resolver.reject(HiveError.failure(des: "code: \(code)"))
+            resolver.reject(HiveError.failure(des: "code: \(code ?? 0)"))
             return
         }
 //        print("DID COMPLETE WITH ERROR")
