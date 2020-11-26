@@ -4,6 +4,7 @@ def import_pods
   pod 'Alamofire', '4.9.1'
   pod 'PromiseKit'
   pod 'ElastosDIDSDK', '1.3'
+  pod 'PreAntlr4', '1.3'
 
   pod 'BlueRSA', '~> 1.0'
   pod 'LoggerAPI', '~> 1.7'

@@ -23,88 +23,6 @@
 import Foundation
 
 class VaultApi: NSObject {
-    
-    class func requestWithSignIn(url: URLConvertible,
-                        method: HTTPMethod = .post,
-                        parameters: Parameters? = nil,
-                        encoding: ParameterEncoding = JSONEncoding.default,
-                        headers: HTTPHeaders? = nil) -> HivePromise<JSON> {
-        return HivePromise<JSON> { resolver in
-            Alamofire.request(url,
-                              method: method,
-                              parameters: parameters,
-                              encoding: encoding,
-                              headers: headers)
-                .responseJSON { dataResponse in
-                    switch dataResponse.result {
-                    case .success(let re):
-                        let json = JSON(re)
-                        let status = json["_status"].stringValue
-                        guard status == "OK" else {
-                            let errorStr = HiveError.praseError(json)
-                            resolver.reject(HiveError.failure(des: errorStr))
-                            return
-                        }
-                        resolver.fulfill(json)
-                    case .failure(let error):
-                        resolver.reject(HiveError.netWork(des: error))
-                    }
-            }
-        }
-    }
-
-    class func request(url: URLConvertible,
-                       method: HTTPMethod = .post,
-                       parameters: Parameters? = nil,
-                       encoding: ParameterEncoding = JSONEncoding.default,
-                       headers: HTTPHeaders? = nil) -> HivePromise<JSON> {
-        return HivePromise<JSON> { resolver in
-            Alamofire.request(url,
-                              method: method,
-                              parameters: parameters,
-                              encoding: encoding,
-                              headers: headers)
-                .responseJSON { dataResponse in
-                    switch dataResponse.result {
-                    case .success(let re):
-                        let json = JSON(re)
-                        resolver.fulfill(json)
-                    case .failure(let error):
-                        resolver.reject(HiveError.netWork(des: error))
-                    }
-                }
-        }
-    }
-
-    class func nodeAuth(url: URLConvertible,
-                        method: HTTPMethod = .post,
-                        parameters: Parameters? = nil,
-                        encoding: ParameterEncoding = JSONEncoding.default,
-                        headers: HTTPHeaders? = nil) -> HivePromise<JSON> {
-        return HivePromise<JSON> { resolver in
-            Alamofire.request(url,
-                              method: method,
-                              parameters: parameters,
-                              encoding: encoding,
-                              headers: headers)
-                .responseJSON { dataResponse in
-                    switch dataResponse.result {
-                    case .success(let re):
-                        let json = JSON(re)
-                        let status = json["_status"].stringValue
-                        guard status == "OK" else {
-                            let errorStr = HiveError.praseError(json)
-                            resolver.reject(HiveError.failure(des: errorStr))
-                            return
-                        }
-                        resolver.fulfill(json)
-                    case .failure(let error):
-                        resolver.reject(error)
-                    }
-                }
-        }
-    }
-
     class func checkResponseIsError(_  json: JSON) -> Bool {
         let status = json["_status"].stringValue
         if status == "ERR" {
@@ -149,5 +67,35 @@ class VaultApi: NSObject {
         else {
             return false
         }
+    }
+    
+    class func handlerDataResponse(_  result: DataResponse<Data>, _ tryAgain: Int)throws -> Bool {
+        if result.result.isSuccess {
+            let code = result.response?.statusCode
+            guard let _ = code else {
+                throw HiveError.failure(des: "Unknow error.")
+            }
+            
+            guard 200...299 ~= code! else {
+                if result.response?.statusCode == 401 && tryAgain < 1  {
+                    return true
+                }
+                else {
+                    if result.result.error != nil {
+                        throw HiveError.netWork(des: result.result.error)
+                    }
+                    else if result.data != nil{
+                        throw HiveError.failure(des: String(data: result.data!, encoding: .utf8))
+                    }
+                    else {
+                        throw HiveError.failure(des: "scripting download ERROR: ")
+                    }
+                }
+            }
+        }
+        else {
+            throw HiveError.failure(des: result.result.error?.localizedDescription)
+        }
+        return false
     }
 }

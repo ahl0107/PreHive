@@ -74,6 +74,7 @@ public class VaultAuthHelper: ConnectHelper {
     }
 
     public init(_ ownerDid: String, _ nodeUrl: String, _ storePath: String, _ authenticationDIDDocument: DIDDocument, _ handler: Authenticator?) {
+        PromiseKit.conf.Q = (map: HiveVaultQueue, return: HiveVaultQueue)
         _authenticationDIDDocument = authenticationDIDDocument
         _authenticationHandler = handler
         _ownerDid = ownerDid
@@ -166,13 +167,6 @@ public class VaultAuthHelper: ConnectHelper {
                     APP_ID_KEY: _appId,
                     APP_INSTANCE_DID_KEY: _appInstanceDid]
         _persistent.upateContent(json as Dictionary<String, Any>)
-    }
-
-    private func nodeAuth(_ jwt: String) -> HivePromise<JSON> {
-        VaultURL.sharedInstance.resetVaultApi(baseUrl: _nodeUrl)
-        let url = VaultURL.sharedInstance.auth()
-        let param = ["jwt": jwt]
-       return VaultApi.nodeAuth(url: url, parameters: param)
     }
 
     func signIn() throws {
