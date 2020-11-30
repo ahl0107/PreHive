@@ -122,6 +122,9 @@
 		1170FB152502019C0049E81D /* Vault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1170FB132502019C0049E81D /* Vault.swift */; };
 		1170FB1A250507C70049E81D /* DBTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1170FB19250507C70049E81D /* DBTest.swift */; };
 		1170FB9F25073D360049E81D /* ijUnD4KeRpeBUFmcEDCbhxMTJRzUYCQCZM in Resources */ = {isa = PBXBuildFile; fileRef = 1170FB9E25073D360049E81D /* ijUnD4KeRpeBUFmcEDCbhxMTJRzUYCQCZM */; };
+		118B00EC2574F36700975781 /* PaymentProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118B00E92574F36600975781 /* PaymentProtocol.swift */; };
+		118B00ED2574F36700975781 /* FileReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118B00EA2574F36600975781 /* FileReader.swift */; };
+		118B00EE2574F36700975781 /* FileWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118B00EB2574F36700975781 /* FileWriter.swift */; };
 		118F2D83250F1A7200447A0A /* ScriptTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118F2D82250F1A7200447A0A /* ScriptTest.swift */; };
 		118F2D85250F1ABA00447A0A /* Constance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118F2D84250F1ABA00447A0A /* Constance.swift */; };
 		118F2DAD25105C3700447A0A /* FileTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118F2DAC25105C3700447A0A /* FileTest.swift */; };
@@ -266,6 +269,9 @@
 		1170FB132502019C0049E81D /* Vault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vault.swift; sourceTree = "<group>"; };
 		1170FB19250507C70049E81D /* DBTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBTest.swift; sourceTree = "<group>"; };
 		1170FB9E25073D360049E81D /* ijUnD4KeRpeBUFmcEDCbhxMTJRzUYCQCZM */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ijUnD4KeRpeBUFmcEDCbhxMTJRzUYCQCZM; sourceTree = "<group>"; };
+		118B00E92574F36600975781 /* PaymentProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentProtocol.swift; sourceTree = "<group>"; };
+		118B00EA2574F36600975781 /* FileReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileReader.swift; sourceTree = "<group>"; };
+		118B00EB2574F36700975781 /* FileWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileWriter.swift; sourceTree = "<group>"; };
 		118F2D82250F1A7200447A0A /* ScriptTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptTest.swift; sourceTree = "<group>"; };
 		118F2D84250F1ABA00447A0A /* Constance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constance.swift; sourceTree = "<group>"; };
 		118F2DAC25105C3700447A0A /* FileTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTest.swift; sourceTree = "<group>"; };
@@ -413,6 +419,9 @@
 		A39C4971225399860027BDF9 /* ElastosHiveSDK */ = {
 			isa = PBXGroup;
 			children = (
+				118B00EA2574F36600975781 /* FileReader.swift */,
+				118B00EB2574F36700975781 /* FileWriter.swift */,
+				118B00E92574F36600975781 /* PaymentProtocol.swift */,
 				1163D925256EA9D200F3DC98 /* AggregatedCondition.swift */,
 				1163D916256EA9D100F3DC98 /* AggregatedExecutable.swift */,
 				1163D915256EA9D100F3DC98 /* Alamofire+Synchronous.swift */,
@@ -840,6 +849,7 @@
 				1163D947256EA9D300F3DC98 /* FindOptions.swift in Sources */,
 				1163D955256EA9D300F3DC98 /* DeleteOptions.swift in Sources */,
 				1163D957256EA9D300F3DC98 /* ReadConcern.swift in Sources */,
+				118B00ED2574F36700975781 /* FileReader.swift in Sources */,
 				1163D95A256EA9D300F3DC98 /* Alamofire+Synchronous.swift in Sources */,
 				1163D961256EA9D300F3DC98 /* UpdateResult.swift in Sources */,
 				1163D95C256EA9D300F3DC98 /* Persistent.swift in Sources */,
@@ -847,12 +857,14 @@
 				1127463324FE3386007D6356 /* ScriptClient.swift in Sources */,
 				111D47C124F78E8200B7462B /* DatabaseProtocol.swift in Sources */,
 				1163D96B256EA9D300F3DC98 /* Result.swift in Sources */,
+				118B00EE2574F36700975781 /* FileWriter.swift in Sources */,
 				1163D96C256EA9D300F3DC98 /* UpdateOptions.swift in Sources */,
 				111D479324F4E2C300B7462B /* VaultAuthInfoStoreImpl.swift in Sources */,
 				1163D96E256EA9D300F3DC98 /* OutputStream.swift in Sources */,
 				1163D985256EA9D300F3DC98 /* Dictionary.swift in Sources */,
 				1163D95D256EA9D300F3DC98 /* AndCondition.swift in Sources */,
 				1163D975256EA9D300F3DC98 /* CountOptions.swift in Sources */,
+				118B00EC2574F36700975781 /* PaymentProtocol.swift in Sources */,
 				1163D974256EA9D300F3DC98 /* DbFindQuery.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1175,6 +1187,7 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
+				OTHER_CFLAGS = "-fembed-bitcode";
 				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -Xfrontend -debug-time-function-bodies";
 				PRODUCT_BUNDLE_IDENTIFIER = org.elastos.hivesdk;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -1217,6 +1230,7 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
+				OTHER_CFLAGS = "-fembed-bitcode";
 				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -Xfrontend -debug-time-function-bodies";
 				PRODUCT_BUNDLE_IDENTIFIER = org.elastos.hivesdk;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
