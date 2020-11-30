@@ -193,6 +193,7 @@ public class VaultAuthHelper: ConnectHelper {
                           encoding: JSONEncoding.default,
                           headers: header).responseJSON()
         var responseJson = try VaultApi.handlerJsonResponse(response)
+        _ = try VaultApi.handlerJsonResponseCanRelogin(responseJson, tryAgain: 1)
         let challenge = responseJson["challenge"].stringValue
         let semaphore: DispatchSemaphore = DispatchSemaphore(value: 0)
         var err: String = ""
