@@ -128,6 +128,10 @@
 		118F2D83250F1A7200447A0A /* ScriptTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118F2D82250F1A7200447A0A /* ScriptTest.swift */; };
 		118F2D85250F1ABA00447A0A /* Constance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118F2D84250F1ABA00447A0A /* Constance.swift */; };
 		118F2DAD25105C3700447A0A /* FileTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118F2DAC25105C3700447A0A /* FileTest.swift */; };
+		119B26C92577E9670084B859 /* CallConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119B26C52577E9670084B859 /* CallConfig.swift */; };
+		119B26CA2577E9670084B859 /* UploadCallConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119B26C62577E9670084B859 /* UploadCallConfig.swift */; };
+		119B26CB2577E9670084B859 /* GeneralCallConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119B26C72577E9670084B859 /* GeneralCallConfig.swift */; };
+		119B26CC2577E9670084B859 /* DownloadCallConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119B26C82577E9670084B859 /* DownloadCallConfig.swift */; };
 		11ED682A22FF1078004C17D0 /* ElastosHiveSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11ED682922FF1077004C17D0 /* ElastosHiveSDK.swift */; };
 		11ED682B22FF1078004C17D0 /* ElastosHiveSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11ED682922FF1077004C17D0 /* ElastosHiveSDK.swift */; };
 		6DDA50FA35E7A18E5EF0C90E /* Pods_ElastosHiveSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D17AD36AC88E073FD2B2D930 /* Pods_ElastosHiveSDK.framework */; };
@@ -275,6 +279,10 @@
 		118F2D82250F1A7200447A0A /* ScriptTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptTest.swift; sourceTree = "<group>"; };
 		118F2D84250F1ABA00447A0A /* Constance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constance.swift; sourceTree = "<group>"; };
 		118F2DAC25105C3700447A0A /* FileTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTest.swift; sourceTree = "<group>"; };
+		119B26C52577E9670084B859 /* CallConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallConfig.swift; sourceTree = "<group>"; };
+		119B26C62577E9670084B859 /* UploadCallConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadCallConfig.swift; sourceTree = "<group>"; };
+		119B26C72577E9670084B859 /* GeneralCallConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralCallConfig.swift; sourceTree = "<group>"; };
+		119B26C82577E9670084B859 /* DownloadCallConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadCallConfig.swift; sourceTree = "<group>"; };
 		11D26F3C22CA3B3300E4099A /* ElastosHiveSDK_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ElastosHiveSDK_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		11ED682922FF1077004C17D0 /* ElastosHiveSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElastosHiveSDK.swift; sourceTree = "<group>"; };
 		13C6D592C180032E4F31BEF6 /* Pods-ElastosHiveSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ElastosHiveSDK.debug.xcconfig"; path = "Target Support Files/Pods-ElastosHiveSDK/Pods-ElastosHiveSDK.debug.xcconfig"; sourceTree = "<group>"; };
@@ -419,6 +427,10 @@
 		A39C4971225399860027BDF9 /* ElastosHiveSDK */ = {
 			isa = PBXGroup;
 			children = (
+				119B26C52577E9670084B859 /* CallConfig.swift */,
+				119B26C82577E9670084B859 /* DownloadCallConfig.swift */,
+				119B26C72577E9670084B859 /* GeneralCallConfig.swift */,
+				119B26C62577E9670084B859 /* UploadCallConfig.swift */,
 				118B00EA2574F36600975781 /* FileReader.swift */,
 				118B00EB2574F36700975781 /* FileWriter.swift */,
 				118B00E92574F36600975781 /* PaymentProtocol.swift */,
@@ -822,6 +834,7 @@
 				1163D976256EA9D300F3DC98 /* Options.swift in Sources */,
 				1163D980256EA9D300F3DC98 /* SwiftyJSON.swift in Sources */,
 				111BD8B1256D011400746A51 /* Payment.swift in Sources */,
+				119B26CC2577E9670084B859 /* DownloadCallConfig.swift in Sources */,
 				1163D94E256EA9D300F3DC98 /* Condition.swift in Sources */,
 				1163D979256EA9D300F3DC98 /* PricingPlan.swift in Sources */,
 				1127462D24FE3343007D6356 /* DatabaseClient.swift in Sources */,
@@ -835,6 +848,7 @@
 				11ED682A22FF1078004C17D0 /* ElastosHiveSDK.swift in Sources */,
 				1163D94B256EA9D300F3DC98 /* VaultURL.swift in Sources */,
 				1163D96F256EA9D300F3DC98 /* ConnectHelper.swift in Sources */,
+				119B26CB2577E9670084B859 /* GeneralCallConfig.swift in Sources */,
 				1163D983256EA9D300F3DC98 /* RegularExpression.swift in Sources */,
 				1163D948256EA9D300F3DC98 /* DbDeleteQuery.swift in Sources */,
 				1163D960256EA9D300F3DC98 /* CreateCollectionOptions.swift in Sources */,
@@ -863,7 +877,9 @@
 				1163D96E256EA9D300F3DC98 /* OutputStream.swift in Sources */,
 				1163D985256EA9D300F3DC98 /* Dictionary.swift in Sources */,
 				1163D95D256EA9D300F3DC98 /* AndCondition.swift in Sources */,
+				119B26CA2577E9670084B859 /* UploadCallConfig.swift in Sources */,
 				1163D975256EA9D300F3DC98 /* CountOptions.swift in Sources */,
+				119B26C92577E9670084B859 /* CallConfig.swift in Sources */,
 				118B00EC2574F36700975781 /* PaymentProtocol.swift in Sources */,
 				1163D974256EA9D300F3DC98 /* DbFindQuery.swift in Sources */,
 			);
