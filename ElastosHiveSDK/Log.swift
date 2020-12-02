@@ -36,7 +36,7 @@ internal class Log {
         }
     }
 
-    internal static func d(_ tag: String, _ arg: Any) {
+    internal static func d(_ tag: String, arg: Any) {
         if (logLevel >= HiveLogLevel.Debug) {
             print("\nD/\(tag): \(arg)")
         }

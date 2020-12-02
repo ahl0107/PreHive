@@ -43,10 +43,10 @@ extension DataRequest {
         self.response(queue: DispatchQueue.global(qos: .default), responseSerializer: responseSerializer) { response in
             
             result = response
-            Log.d("Hive Debug ==> request url ->", response.request?.url as Any)
-            Log.d("Hive Debug ==> request headers ->", (result.request?.allHTTPHeaderFields) as Any)
-            Log.d("Hive Debug ==> response Code ->", result.response?.statusCode as Any)
-            Log.d("Hive Debug ==> response body ->", result.result.debugDescription)
+            Log.d("Hive Debug ==> request url ->", arg: response.request?.url as Any)
+            Log.d("Hive Debug ==> request headers ->", arg: (result.request?.allHTTPHeaderFields) as Any)
+            Log.d("Hive Debug ==> response Code ->", arg: result.response?.statusCode as Any)
+            Log.d("Hive Debug ==> response body ->", arg: result.result.debugDescription)
 
             semaphore.signal()
         }
