@@ -37,13 +37,12 @@ public class FileReader: NSObject, URLSessionDelegate, URLSessionTaskDelegate, U
     var downloadDidFinsish: Bool = false
     var readDidFinish: Bool = false
     var resolver: Resolver<FileReader>
-    typealias AuthFailure = (_ error: HiveError) -> Void
-    var authFailure : AuthFailure?
     typealias RequestBlock = (_ error: HiveError) -> Void
-    private var requestBlock : RequestBlock?
-    typealias BlockRead = (_ block: Bool) -> Void
-    private var blockRead : BlockRead?
-    
+    typealias HandleBlock = (_ success: Bool, _ error: HiveError?) -> Void
+    var authFailure : RequestBlock?
+    private var readerBlock : RequestBlock?
+    private var readerCompleteWithError: HandleBlock?
+  
     init(url: URL, authHelper: VaultAuthHelper, method: HTTPMethod, resolver: Resolver<FileReader>) {
         var input: InputStream? = nil
         var output: OutputStream? = nil
@@ -68,6 +67,8 @@ public class FileReader: NSObject, URLSessionDelegate, URLSessionTaskDelegate, U
         let session = URLSession(configuration: config, delegate: self, delegateQueue: operationQueue)
         let request = try! URLRequest(url: url, method: method, headers: Header(authHelper).headersStream())
         task = session.dataTask(with: request)
+        Log.d("Hive Debug ==> request url ->", request.url as Any)
+        Log.d("Hive Debug ==> request headers ->", (request.allHTTPHeaderFields) as Any)
         
         self.task?.resume()
     }
@@ -77,7 +78,7 @@ public class FileReader: NSObject, URLSessionDelegate, URLSessionTaskDelegate, U
     }
     
     public func read(_ size: Int, _ error: @escaping (_ error: HiveError) -> Void) -> Data? {
-        self.requestBlock = error
+        self.readerBlock = error
         if self.downloadBoundStreams.input.hasBytesAvailable == true {
             let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: size)
             let readBytesCount = self.downloadBoundStreams.input.read(buffer, maxLength: size)
@@ -101,7 +102,8 @@ public class FileReader: NSObject, URLSessionDelegate, URLSessionTaskDelegate, U
         // TODO: maybe on ios nothing to do here.
     }
     
-    public func close() {
+    public func close(_ didCompleteWithError: @escaping (_ success: Bool, _ error: HiveError?) -> Void) {
+        self.readerCompleteWithError = didCompleteWithError
         downloadBoundStreams.input.close()
     }
     
@@ -116,7 +118,9 @@ public class FileReader: NSObject, URLSessionDelegate, URLSessionTaskDelegate, U
     }
 
     public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+
         let response = dataTask.response as? HTTPURLResponse
+        Log.d("Hive Debug ==> didReceive ->", response as Any)
         let code = response?.statusCode
         guard code != nil else {
             self.resolver.reject(HiveError.failure(des: "unkonw error."))
@@ -127,6 +131,8 @@ public class FileReader: NSObject, URLSessionDelegate, URLSessionTaskDelegate, U
         }
         guard 200...299 ~= code! else {
             resolver.reject(HiveError.failure(des: String(data: data, encoding: .utf8)))
+            self.readerBlock?(HiveError.failure(des: String(data: data, encoding: .utf8)))
+            self.readerCompleteWithError?(false, HiveError.failure(des: String(data: data, encoding: .utf8)))
             self.task?.cancel()
             return
         }
@@ -143,20 +149,23 @@ public class FileReader: NSObject, URLSessionDelegate, URLSessionTaskDelegate, U
                     leaveBytesCount = leaveBytesCount < BUFFER_SIZE ? leaveBytesCount : BUFFER_SIZE
                     let bytesWritten: Int = self.downloadBoundStreams.output.write(buffer, maxLength: leaveBytesCount)
                     totalBytesWritten = totalBytesWritten + bytesWritten
-                    self.blockRead?(true)
                 }
             }
         }
     }
     
     public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        let response = task.response as? HTTPURLResponse
+        Log.d("Hive Debug ==> response Code ->", response?.statusCode as Any)
+        Log.d("Hive Debug ==> didCompleteWithError ->", response as Any)
         if let _ = error {
-            self.requestBlock?(HiveError.netWork(des: error))
+            self.readerBlock?(HiveError.netWork(des: error))
+            self.readerCompleteWithError?(false, HiveError.netWork(des: error))
             return
         }
-        let response = task.response as? HTTPURLResponse
         let code = response?.statusCode
         guard code != nil else {
+            self.readerCompleteWithError?(false, HiveError.failure(des: "unkonw error."))
             self.resolver.reject(HiveError.failure(des: "unkonw error."))
             return
         }
@@ -166,10 +175,14 @@ public class FileReader: NSObject, URLSessionDelegate, URLSessionTaskDelegate, U
                 self.task?.cancel()
                 return
             }
+            self.readerBlock?(HiveError.netWork(des: error))
+            self.readerCompleteWithError?(false, HiveError.failure(des: "code: \(code ?? 0)"))
             resolver.reject(HiveError.failure(des: "code: \(code ?? 0)"))
             return
         }
         self.downloadDidFinsish = true
         downloadBoundStreams.output.close()
+        self.readerCompleteWithError?(true, nil)
+        Log.d("Hive Debug ==> reader close.", "")
     }
 }
