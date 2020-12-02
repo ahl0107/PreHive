@@ -67,7 +67,7 @@ public class FileReader: NSObject, URLSessionDelegate, URLSessionTaskDelegate, U
         let session = URLSession(configuration: config, delegate: self, delegateQueue: operationQueue)
         let request = try! URLRequest(url: url, method: method, headers: Header(authHelper).headersStream())
         task = session.dataTask(with: request)
-        Log.d("Hive Debug ==> request url ->", String(describing: request.url?.description) )
+        Log.d("Hive Debug ==> request url ->", (request.url?.description ?? "") as String )
         Log.d("Hive Debug ==> request headers ->", String(describing: request.allHTTPHeaderFields?.debugDescription))
         
         self.task?.resume()
