@@ -185,12 +185,13 @@ public class VaultAuthHelper: ConnectHelper {
         let json = try JSONSerialization.jsonObject(with: data!, options: []) as? [String: Any]
         var params = ["document": json as Any] as [String: Any]
         var url = VaultURL.sharedInstance.signIn()
+        let header = ["Content-Type": "application/json;charset=UTF-8"]
         
-        var response = AF.request(url,
+        var response = Alamofire.request(url,
                           method: .post,
                           parameters: params as Parameters,
                           encoding: JSONEncoding.default,
-                          headers: Header.init(self).NormalHeaders()).responseJSON()
+                          headers: header).responseJSON()
         var responseJson = try VaultApi.handlerJsonResponse(response)
         _ = try VaultApi.handlerJsonResponseCanRelogin(responseJson, tryAgain: 1)
         let challenge = responseJson["challenge"].stringValue
@@ -211,7 +212,7 @@ public class VaultAuthHelper: ConnectHelper {
         
         url = VaultURL.sharedInstance.auth()
         params = ["jwt": authToken]
-        response = AF.request(url,
+        response = Alamofire.request(url,
                             method: .post,
                             parameters: params,
                             encoding: JSONEncoding.default).responseJSON()
