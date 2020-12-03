@@ -1,5 +1,5 @@
 import Foundation
-import ElastosDIDSDK
+import PreDID
 
 class Entity: NSObject {
     var phrasepass: String

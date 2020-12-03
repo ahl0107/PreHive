@@ -1,7 +1,7 @@
 
 import XCTest
 @testable import ElastosHiveSDK
-import ElastosDIDSDK
+import PreDID
 
 class VaultAuthenticator: Authenticator {
     func requestAuthentication(_ jwtToken: String) -> HivePromise<String> {

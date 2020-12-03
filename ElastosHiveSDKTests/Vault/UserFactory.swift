@@ -1,7 +1,7 @@
 
 import XCTest
 @testable import ElastosHiveSDK
-import ElastosDIDSDK
+import PreDID
 
 public class UserFactory {
     static let didCachePath = "didCache"
