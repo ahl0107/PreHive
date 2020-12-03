@@ -22,10 +22,10 @@
 
 import Foundation
 
-internal class Log {
+public class Log {
     private static var logLevel = HiveLogLevel.Info
 
-    internal static func setLevel(_ level: HiveLogLevel) {
+    public static func setLevel(_ level: HiveLogLevel) {
         logLevel = level
     }
 
