@@ -1,7 +1,7 @@
 
 import XCTest
 @testable import ElastosHiveSDK
-import PreDID
+import ElastosDIDSDK
 
 class FileTest: XCTestCase {
     private var client: HiveClientHandle?
@@ -19,7 +19,7 @@ class FileTest: XCTestCase {
                 print(err)
             })
             
-            for _ in 0...40 {
+            for _ in 0...4 {
                     try writer.write(data: message1.data(using: .utf8)!, { err in
                         print(err)
                     })
@@ -34,7 +34,9 @@ class FileTest: XCTestCase {
                 print(err)
             })
 
-                writer.close()
+            writer.close { (success, error) in
+                print(success)
+            }
                 
                 XCTAssertNotNil(writer)
                 lock.fulfill()
@@ -53,9 +55,9 @@ class FileTest: XCTestCase {
             let fileurl = creaFile()
             while !output.didLoadFinish {
                 if let data = output.read({ error in
-                    print(error)
+                    print(error as Any)
                 }){
-                    print("prepare to write \(data.count)")
+//                    print("prepare to write \(data.count)")
                     if let fileHandle = try? FileHandle(forWritingTo: fileurl) {
                         fileHandle.seekToEndOfFile()
                         fileHandle.write(data)
@@ -66,7 +68,9 @@ class FileTest: XCTestCase {
                     }
                 }
             }
-            output.close()
+            output.close { (success, error) in
+                print(success)
+            }
             lock.fulfill()
         }.catch{ error in
             XCTFail()
@@ -179,11 +183,10 @@ class FileTest: XCTestCase {
         do {
             user = try UserFactory.createUser1()
             let lock = XCTestExpectation(description: "wait for test.")
-            user?.client.createVault(OWNERDID, user?.provider).done{ vault in
-
+            user?.client.getVault(user!.ownerDid, user?.provider).done{ vault in
                 self.file = (vault.files as! FileClient)
                 lock.fulfill()
-            }.catch { error in
+            }.catch{ error in
                 print(error)
                 lock.fulfill()
             }
