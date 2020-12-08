@@ -44,6 +44,7 @@ public class VaultAuthHelper: ConnectHelper {
 
     private var _authenticationDIDDocument: DIDDocument?
     var _authenticationHandler: Authenticator?
+    var vaultUrl: VaultURL
 
     public var ownerDid: String? {
         return _ownerDid
@@ -80,8 +81,8 @@ public class VaultAuthHelper: ConnectHelper {
         _ownerDid = ownerDid
         _nodeUrl = nodeUrl
         _persistent = VaultAuthInfoStoreImpl(ownerDid, nodeUrl, storePath)
-
-        VaultURL.sharedInstance.resetVaultApi(baseUrl: _nodeUrl)
+        
+        self.vaultUrl = VaultURL(_nodeUrl)
     }
     
     public override func checkValid() -> HivePromise<Void> {
@@ -184,7 +185,7 @@ public class VaultAuthHelper: ConnectHelper {
         let data = jsonstr.data(using: .utf8)
         let json = try JSONSerialization.jsonObject(with: data!, options: []) as? [String: Any]
         var params = ["document": json as Any] as [String: Any]
-        var url = VaultURL.sharedInstance.signIn()
+        var url = vaultUrl.signIn()
         
         var response = AF.request(url,
                           method: .post,
@@ -209,7 +210,7 @@ public class VaultAuthHelper: ConnectHelper {
             throw HiveError.accessAuthToken(des: err)
         }
         
-        url = VaultURL.sharedInstance.auth()
+        url = vaultUrl.auth()
         params = ["jwt": authToken]
         response = AF.request(url,
                             method: .post,
@@ -227,14 +228,7 @@ public class VaultAuthHelper: ConnectHelper {
         }
     }
     
-    private func delete() throws {
-        token = AuthToken("", "", "")
-        let json = [ACCESS_TOKEN_KEY: token!.accessToken,
-                    EXPIRES_AT_KEY: token!.expiredTime,
-                    TOKEN_TYPE_KEY: "token",
-                    USER_DID_KEY: "",
-                    APP_ID_KEY: "",
-                    APP_INSTANCE_DID_KEY: ""]
-        try _persistent.upateContent(json as Dictionary<String, Any>)
+    public func removeToken() throws {
+        try _persistent.deleteContent()
     }
 }
