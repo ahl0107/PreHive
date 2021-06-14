@@ -1,7 +1,7 @@
 import Foundation
 import ElastosDIDSDK
 
-class DummyAdapter: DIDAdapter, DIDResolver {
+public class DummyAdapter: DIDAdapter, DIDResolver {
     
     private var verbose: Bool = false
     private var idtxs: Array<IDTransactionInfo> = []
@@ -25,7 +25,7 @@ class DummyAdapter: DIDAdapter, DIDResolver {
         return str
     }
 
-    func createIdTransaction(_ payload: String, _ memo: String?) throws {
+    public func createIdTransaction(_ payload: String, _ memo: String?) throws {
         
         do {
             let request: IDChainRequest = try IDChainRequest.fromJson(payload)
@@ -40,11 +40,11 @@ class DummyAdapter: DIDAdapter, DIDResolver {
             }
             
             if !request.isValid {
-                throw TestError.failue("Invalid ID transaction request.")
+                throw DummyAdapterError.failure("Invalid ID transaction request.")
             }
             if request.operation != IDChainRequestOperation.DEACTIVATE {
                 if !request.document!.isValid {
-                    throw TestError.failue("Invalid DID Document.")
+                    throw DummyAdapterError.failure("Invalid DID Document.")
                 }
             }
             var ti = getLastTransaction(request.did!)
@@ -52,31 +52,31 @@ class DummyAdapter: DIDAdapter, DIDResolver {
             switch request.operation {
             case .CREATE: do {
                 guard ti == nil else {
-                    throw TestError.failue("DID already exist.")
+                    throw DummyAdapterError.failure("DID already exist.")
                 }
                 break
                 }
             case .UPDATE: do {
                 guard ti != nil else {
-                    throw TestError.failue("DID not exist.")
+                    throw DummyAdapterError.failure("DID not exist.")
                 }
                 
                 guard ti!.operation != IDChainRequestOperation.DEACTIVATE else {
-                    throw TestError.failue("DID already dactivated.")
+                    throw DummyAdapterError.failure("DID already dactivated.")
                 }
                 
                 guard request.previousTransactionId == ti!.transactionId else {
-                    throw TestError.failue("Previous transaction id missmatch.")
+                    throw DummyAdapterError.failure("Previous transaction id missmatch.")
                 }
                 break
                 }
             case .DEACTIVATE: do {
                 guard ti != nil else {
-                    throw TestError.failue("DID not exist.")
+                    throw DummyAdapterError.failure("DID not exist.")
                 }
                 
                 guard ti!.operation != IDChainRequestOperation.DEACTIVATE else {
-                    throw TestError.failue("DID already dactivated.")
+                    throw DummyAdapterError.failure("DID already dactivated.")
                 }
                 break
                 }
@@ -91,7 +91,7 @@ class DummyAdapter: DIDAdapter, DIDResolver {
         }
     }
 
-    func resolve(_ requestId: String, _ did: String, _ all: Bool) throws -> Data {
+    public func resolve(_ requestId: String, _ did: String, _ all: Bool) throws -> Data {
         
         if (verbose) {
             print("Resolve: " + did + "...")
@@ -233,5 +233,18 @@ class IDTx {
     public func toJson() throws -> String {
         let json = request.toJson(false)
         return "{\"id\": \"1\",\"jsonrpc\":\"2.0\",\"result\":[\(json)]}"
+    }
+}
+
+public enum DummyAdapterError: Error {
+    case failure(_ des: String?)
+}
+
+extension DummyAdapterError {
+    static func des(_ error: DummyAdapterError) -> String {
+        switch error {
+        case .failure(let err):
+            return err ?? "Operation failed"
+        }
     }
 }

@@ -34,9 +34,15 @@ public enum HiveError: Error {
     case jwtVerify(des: String?)
     case transactionIdIsNil(des: String?)
     case fileNotFound(des: String?)
-    case didNotPublished(des: String?)
+    case providerNotSet(des: String?)
+    case authorizationIsNil(des: String?)
+    case vaultAlreadyExistException(des: String?)
+    case challengeIsNil(des: String?)
+    case jsonSerializationInvalidType(des: String?)
+    case vaultNotFound(des: String?)
 }
 
+// jsonSerializationInvalidType
 extension HiveError {
 
    public static func description(_ error: HiveError) -> String {
@@ -63,7 +69,17 @@ extension HiveError {
             return des ?? ""
         case .fileNotFound(let des):
             return des ?? ""
-        case .didNotPublished(let des):
+        case .providerNotSet(let des):
+            return des ?? ""
+        case .authorizationIsNil(let des):
+            return des ?? ""
+        case .vaultAlreadyExistException(let des):
+            return des ?? ""
+        case .challengeIsNil(let des):
+            return des ?? ""
+        case .jsonSerializationInvalidType(let des):
+            return des ?? ""
+        case .vaultNotFound(let des):
             return des ?? ""
         }
     }

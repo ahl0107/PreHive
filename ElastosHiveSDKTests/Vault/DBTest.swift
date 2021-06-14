@@ -3,22 +3,7 @@ import XCTest
 @testable import ElastosHiveSDK
 import ElastosDIDSDK
 
-class VaultAuthenticator: Authenticator {
-    func requestAuthentication(_ jwtToken: String) -> HivePromise<String> {
-        return HivePromise<String> { resolver in
-            do{
-                let authtoken = try user?.presentationInJWT!.getAuthToken(jwtToken)
-                print("authtoken = \(authtoken)")
-                resolver.fulfill(authtoken!)
-            }
-            catch {
-                resolver.reject(error)
-            }
-        }
-    }
-}
-
-public var user: UserFactory?
+public var user: AppInstanceFactory?
 class DBTest: XCTestCase {
     private var client: HiveClientHandle?
     private var database: DatabaseClient?
@@ -177,7 +162,7 @@ class DBTest: XCTestCase {
 
     func test04_CreateCol() {
         let lock = XCTestExpectation(description: "wait for test.")
-        database?.createCollection(collectionName).done{ success in
+        database?.createCollection(collectionName, options: nil).done{ success in
             XCTAssertTrue(success)
             lock.fulfill()
         }.catch{ e in
@@ -371,9 +356,9 @@ class DBTest: XCTestCase {
         // Put setup code here. This method is called before the invocation of each test method in the class.
         do {
             Log.setLevel(.Debug)
-            user = try UserFactory.createUser1()
+            user = try AppInstanceFactory.createUser1()
             let lock = XCTestExpectation(description: "wait for test.")
-            user!.client.getVault(user!.ownerDid, user?.provider).done { [self] vault in
+            user!.client.getVault(user!.userFactoryOpt.ownerDid, user?.userFactoryOpt.provider).done { [self] vault in
                 self.database = (vault.database as! DatabaseClient)
                 lock.fulfill()
             }.catch { error in

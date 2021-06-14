@@ -31,22 +31,16 @@ class VaultHelper: NSObject {
         self.vaultUrl = authHelper.vaultUrl
     }
     
-    func useTrial() -> HivePromise<Bool> {
-        return HivePromise<Bool> { resolver in
-            authHelper.checkValid().then { [self] _ -> HivePromise<Bool> in
-                return useTrialImp()
-            }.done { success in
-                resolver.fulfill(success)
-            }.catch { error in
-                resolver.reject(error)
-            }
+    public func requestToCreateVault() -> Promise<Bool> {
+        return authHelper.checkValid().then { [self] _ -> Promise<Bool> in
+            return requestToCreateVaultImpl()
         }
     }
     
-    func useTrialImp() -> HivePromise<Bool> {
-        return HivePromise { resolver in
+    private func requestToCreateVaultImpl() -> Promise<Bool> {
+        return Promise { resolver in
             let url = vaultUrl.createFreeVault()
-            let response = AF.request(url, method: .post, encoding: JSONEncoding.default, headers: Header(authHelper).headers()).responseJSON()
+            let response = AF.request(url, method: .post, encoding: JSONEncoding.default, headers: HiveHeader(authHelper).headers()).responseJSON()
             switch response.result {
             case .success(let re):
             let json = JSON(re)
@@ -54,6 +48,27 @@ class VaultHelper: NSObject {
             case .failure(let err):
             resolver.reject(HiveError.netWork(des: err))
             }
+        }
+    }
+    
+    public func vaultExist() -> Promise<Bool> {
+        return authHelper.checkValid().then { [self] _ -> Promise<Bool> in
+            return vaultExistImpl()
+        }
+    }
+    
+    private func vaultExistImpl() -> Promise<Bool> {
+        return Promise { reslover in
+
+        let url = vaultUrl.serviceInfo()
+        let response = AF.request(url,
+                            method: .get,
+                            parameters: nil,
+                            encoding: JSONEncoding.default,
+                            headers: HiveHeader(authHelper).headers()).responseJSON()
+        let json = try VaultApi.handlerJsonResponse(response)
+        let ret = json["vault_service_info"]
+        reslover.fulfill(ret.count != 0)
         }
     }
 }

@@ -31,21 +31,15 @@ public class DatabaseClient: DatabaseProtocol {
         self.authHelper = authHelper
         self.vaultUrl = authHelper.vaultUrl
     }
-    
-    public func createCollection(_ name: String) -> HivePromise<Bool> {
-        return authHelper.checkValid().then { _ -> HivePromise<Bool> in
-            return self.createColImp(name, nil, 0)
-        }
-    }
 
-    public func createCollection(_ name: String, options: CreateCollectionOptions) -> HivePromise<Bool> {
-        return authHelper.checkValid().then { _ -> HivePromise<Bool> in
+    public func createCollection(_ name: String, options: CreateCollectionOptions?) -> Promise<Bool> {
+        return authHelper.checkValid().then { _ -> Promise<Bool> in
             return self.createColImp(name, options, 0)
         }
     }
 
-    private func createColImp(_ collection: String, _ options: CreateCollectionOptions?, _ tryAgain: Int) -> HivePromise<Bool> {
-        HivePromise<Bool> { resolver in
+    private func createColImp(_ collection: String, _ options: CreateCollectionOptions?, _ tryAgain: Int) -> Promise<Bool> {
+        Promise<Bool> { resolver in
             var param: [String: Any] = ["collection": collection]
             if options != nil {
                 if try options!.jsonSerialize().count != 0 {
@@ -57,7 +51,7 @@ public class DatabaseClient: DatabaseProtocol {
                                 method: .post,
                                 parameters: param,
                                 encoding: JSONEncoding.default,
-                                headers: Header(authHelper).headers()).responseJSON()
+                                headers: HiveHeader(authHelper).headers()).responseJSON()
             let json = try VaultApi.handlerJsonResponse(response)
             let isRelogin = try VaultApi.handlerJsonResponseCanRelogin(json, tryAgain: tryAgain)
             if isRelogin {
@@ -72,21 +66,21 @@ public class DatabaseClient: DatabaseProtocol {
         }
     }
 
-    public func deleteCollection(_ name: String) -> HivePromise<Bool> {
-        return authHelper.checkValid().then { _ -> HivePromise<Bool> in
+    public func deleteCollection(_ name: String) -> Promise<Bool> {
+        return authHelper.checkValid().then { _ -> Promise<Bool> in
             return self.deleteColImp(name, 0)
         }
     }
 
-    private func deleteColImp(_ collection: String, _ tryAgain: Int) -> HivePromise<Bool> {
-        return HivePromise<Bool> { resolver in
+    private func deleteColImp(_ collection: String, _ tryAgain: Int) -> Promise<Bool> {
+        return Promise<Bool> { resolver in
             let param = ["collection": collection]
             let url = vaultUrl.deleteMongoDBCollection()
             let response = AF.request(url,
                                 method: .post,
                                 parameters: param,
                                 encoding: JSONEncoding.default,
-                                headers: Header(authHelper).headers()).responseJSON()
+                                headers: HiveHeader(authHelper).headers()).responseJSON()
             let json = try VaultApi.handlerJsonResponse(response)
             let isRelogin = try VaultApi.handlerJsonResponseCanRelogin(json, tryAgain: tryAgain)
             if isRelogin {
@@ -101,14 +95,14 @@ public class DatabaseClient: DatabaseProtocol {
         }
     }
 
-    public func insertOne(_ collection: String, _ doc: [String : Any], options: InsertOptions?) -> HivePromise<InsertOneResult> {
-        return authHelper.checkValid().then { _ -> HivePromise<InsertOneResult> in
+    public func insertOne(_ collection: String, _ doc: [String : Any], options: InsertOptions?) -> Promise<InsertOneResult> {
+        return authHelper.checkValid().then { _ -> Promise<InsertOneResult> in
             return self.insertOneImp(collection, doc, options, 0)
         }
     }
     
-    private func insertOneImp(_ collection: String, _ doc: [String: Any], _ options: InsertOptions?, _ tryAgain: Int) -> HivePromise<InsertOneResult> {
-        HivePromise<InsertOneResult> { resolver in
+    private func insertOneImp(_ collection: String, _ doc: [String: Any], _ options: InsertOptions?, _ tryAgain: Int) -> Promise<InsertOneResult> {
+        Promise<InsertOneResult> { resolver in
             var param = ["collection": collection, "document": doc] as [String : Any]
             if options != nil {
                 if try options!.jsonSerialize().count != 0 {
@@ -120,7 +114,7 @@ public class DatabaseClient: DatabaseProtocol {
                                 method: .post,
                                 parameters: param,
                                 encoding: JSONEncoding.default,
-                                headers: Header(authHelper).headers()).responseJSON()
+                                headers: HiveHeader(authHelper).headers()).responseJSON()
             let json = try VaultApi.handlerJsonResponse(response)
             let isRelogin = try VaultApi.handlerJsonResponseCanRelogin(json, tryAgain: tryAgain)
             if isRelogin {
@@ -136,14 +130,14 @@ public class DatabaseClient: DatabaseProtocol {
         }
     }
 
-    public func insertMany(_ collection: String, _ docs: Array<[String : Any]>, options: InsertOptions) -> HivePromise<InsertManyResult> {
-        return authHelper.checkValid().then { _ -> HivePromise<InsertManyResult> in
+    public func insertMany(_ collection: String, _ docs: Array<[String : Any]>, options: InsertOptions) -> Promise<InsertManyResult> {
+        return authHelper.checkValid().then { _ -> Promise<InsertManyResult> in
             return self.insertManyImp(collection, docs, options, 0)
         }
     }
 
-    private func insertManyImp(_ collection: String, _ doc: Array<[String: Any]>, _ options: InsertOptions, _ tryAgain: Int) -> HivePromise<InsertManyResult> {
-        HivePromise<InsertManyResult> { resolver in
+    private func insertManyImp(_ collection: String, _ doc: Array<[String: Any]>, _ options: InsertOptions, _ tryAgain: Int) -> Promise<InsertManyResult> {
+        Promise<InsertManyResult> { resolver in
             var param = ["collection": collection, "document": doc] as [String : Any]
             if try options.jsonSerialize().count != 0 {
                 param["options"] = try options.jsonSerialize()
@@ -153,7 +147,7 @@ public class DatabaseClient: DatabaseProtocol {
                                 method: .post,
                                 parameters: param,
                                 encoding: JSONEncoding.default,
-                                headers: Header(authHelper).headers()).responseJSON()
+                                headers: HiveHeader(authHelper).headers()).responseJSON()
             let json = try VaultApi.handlerJsonResponse(response)
             let isRelogin = try VaultApi.handlerJsonResponseCanRelogin(json, tryAgain: tryAgain)
             if isRelogin {
@@ -169,14 +163,14 @@ public class DatabaseClient: DatabaseProtocol {
         }
     }
 
-    public func countDocuments(_ collection: String, _ query: [String : Any], options: CountOptions) -> HivePromise<Int> {
-        return authHelper.checkValid().then { _ -> HivePromise<Int> in
+    public func countDocuments(_ collection: String, _ query: [String : Any], options: CountOptions) -> Promise<Int> {
+        return authHelper.checkValid().then { _ -> Promise<Int> in
             return self.countDocumentsImp(collection, query, options, 0)
         }
     }
 
-    private func countDocumentsImp(_ collection: String, _ query: [String: Any], _ options: CountOptions, _ tryAgain: Int) -> HivePromise<Int> {
-        return HivePromise<Int> { resolver in
+    private func countDocumentsImp(_ collection: String, _ query: [String: Any], _ options: CountOptions, _ tryAgain: Int) -> Promise<Int> {
+        return Promise<Int> { resolver in
             var param = ["collection": collection, "filter": query] as [String : Any]
             if try options.jsonSerialize().count != 0 {
                 param["options"] = try options.jsonSerialize()
@@ -186,7 +180,7 @@ public class DatabaseClient: DatabaseProtocol {
                                 method: .post,
                                 parameters: param,
                                 encoding: JSONEncoding.default,
-                                headers: Header(authHelper).headers()).responseJSON()
+                                headers: HiveHeader(authHelper).headers()).responseJSON()
             let json = try VaultApi.handlerJsonResponse(response)
             let isRelogin = try VaultApi.handlerJsonResponseCanRelogin(json, tryAgain: tryAgain)
             if isRelogin {
@@ -201,14 +195,14 @@ public class DatabaseClient: DatabaseProtocol {
         }
     }
 
-    public func findOne(_ collection: String, _ query: [String : Any], options: FindOptions) -> HivePromise<[String : Any]?> {
-        return authHelper.checkValid().then { _ -> HivePromise<[String: Any]?> in
+    public func findOne(_ collection: String, _ query: [String : Any], options: FindOptions) -> Promise<[String : Any]?> {
+        return authHelper.checkValid().then { _ -> Promise<[String: Any]?> in
             return self.findOneImp(collection, query, options, 0)
         }
     }
 
-    private func findOneImp(_ collection: String, _ query: [String: Any], _ options: FindOptions, _ tryAgain: Int) -> HivePromise<[String: Any]?> {
-        return HivePromise<[String: Any]?> { resolver in
+    private func findOneImp(_ collection: String, _ query: [String: Any], _ options: FindOptions, _ tryAgain: Int) -> Promise<[String: Any]?> {
+        return Promise<[String: Any]?> { resolver in
             var param = ["collection": collection, "filter": query] as [String : Any]
             if try options.jsonSerialize().count != 0 {
                 param["options"] = try options.jsonSerialize()
@@ -218,7 +212,7 @@ public class DatabaseClient: DatabaseProtocol {
                                 method: .post,
                                 parameters: param,
                                 encoding: JSONEncoding.default,
-                                headers: Header(authHelper).headers()).responseJSON()
+                                headers: HiveHeader(authHelper).headers()).responseJSON()
             let json = try VaultApi.handlerJsonResponse(response)
             let isRelogin = try VaultApi.handlerJsonResponseCanRelogin(json, tryAgain: tryAgain)
             if isRelogin {
@@ -233,14 +227,14 @@ public class DatabaseClient: DatabaseProtocol {
         }
     }
 
-    public func findMany(_ collection: String, _ query: [String : Any], options: FindOptions) -> HivePromise<Array<[String : Any]>?> {
-        return authHelper.checkValid().then { _ -> HivePromise<Array<[String : Any]>?> in
+    public func findMany(_ collection: String, _ query: [String : Any], options: FindOptions) -> Promise<Array<[String : Any]>?> {
+        return authHelper.checkValid().then { _ -> Promise<Array<[String : Any]>?> in
             return self.findManyImp(collection, query, options, 0)
         }
     }
 
-    private func findManyImp(_ collection: String, _ query: [String: Any], _ options: FindOptions, _ tryAgain: Int) -> HivePromise<Array<[String: Any]>?> {
-        return HivePromise<Array<[String: Any]>?> { resolver in
+    private func findManyImp(_ collection: String, _ query: [String: Any], _ options: FindOptions, _ tryAgain: Int) -> Promise<Array<[String: Any]>?> {
+        return Promise<Array<[String: Any]>?> { resolver in
             var param = ["collection": collection, "filter": query] as [String : Any]
             if try options.jsonSerialize().count != 0 {
                 param["options"] = try options.jsonSerialize()
@@ -250,7 +244,7 @@ public class DatabaseClient: DatabaseProtocol {
                                 method: .post,
                                 parameters: param,
                                 encoding: JSONEncoding.default,
-                                headers: Header(authHelper).headers()).responseJSON()
+                                headers: HiveHeader(authHelper).headers()).responseJSON()
             let json = try VaultApi.handlerJsonResponse(response)
             let isRelogin = try VaultApi.handlerJsonResponseCanRelogin(json, tryAgain: tryAgain)
             if isRelogin {
@@ -276,14 +270,14 @@ public class DatabaseClient: DatabaseProtocol {
         }
     }
 
-    public func updateOne(_ collection: String, _ filter: [String : Any], _ update: [String : Any], options: UpdateOptions) -> HivePromise<UpdateResult> {
-        return authHelper.checkValid().then { _ -> HivePromise<UpdateResult> in
+    public func updateOne(_ collection: String, _ filter: [String : Any], _ update: [String : Any], options: UpdateOptions) -> Promise<UpdateResult> {
+        return authHelper.checkValid().then { _ -> Promise<UpdateResult> in
             return self.updateOneImp(collection, filter, update, options, 0)
         }
     }
 
-    private func updateOneImp(_ collection: String, _ filter: [String: Any], _ update: [String: Any], _ options: UpdateOptions, _ tryAgain: Int) -> HivePromise<UpdateResult> {
-        return HivePromise<UpdateResult> { resolver in
+    private func updateOneImp(_ collection: String, _ filter: [String: Any], _ update: [String: Any], _ options: UpdateOptions, _ tryAgain: Int) -> Promise<UpdateResult> {
+        return Promise<UpdateResult> { resolver in
             var param = ["collection": collection, "filter": filter, "update": update] as [String : Any]
             if try options.jsonSerialize().count != 0 {
                 param["options"] = try options.jsonSerialize()
@@ -293,7 +287,7 @@ public class DatabaseClient: DatabaseProtocol {
                                 method: .post,
                                 parameters: param,
                                 encoding: JSONEncoding.default,
-                                headers: Header(authHelper).headers()).responseJSON()
+                                headers: HiveHeader(authHelper).headers()).responseJSON()
             let json = try VaultApi.handlerJsonResponse(response)
             let isRelogin = try VaultApi.handlerJsonResponseCanRelogin(json, tryAgain: tryAgain)
             if isRelogin {
@@ -309,14 +303,14 @@ public class DatabaseClient: DatabaseProtocol {
         }
     }
 
-    public func updateMany(_ collection: String, _ filter: [String : Any], _ update: [String : Any], options: UpdateOptions) -> HivePromise<UpdateResult> {
-        return authHelper.checkValid().then { _ -> HivePromise<UpdateResult> in
+    public func updateMany(_ collection: String, _ filter: [String : Any], _ update: [String : Any], options: UpdateOptions) -> Promise<UpdateResult> {
+        return authHelper.checkValid().then { _ -> Promise<UpdateResult> in
             return self.updateManyImp(collection, filter, update, options, 0)
         }
     }
 
-    private func updateManyImp(_ collection: String, _ filter: [String: Any], _ update: [String: Any], _ options: UpdateOptions, _ tryAgain: Int) -> HivePromise<UpdateResult>{
-        return HivePromise<UpdateResult> { resolver in
+    private func updateManyImp(_ collection: String, _ filter: [String: Any], _ update: [String: Any], _ options: UpdateOptions, _ tryAgain: Int) -> Promise<UpdateResult>{
+        return Promise<UpdateResult> { resolver in
             var param = ["collection": collection, "filter": filter, "update": update] as [String : Any]
             if try options.jsonSerialize().count != 0 {
                 param["options"] = try options.jsonSerialize()
@@ -326,7 +320,7 @@ public class DatabaseClient: DatabaseProtocol {
                                 method: .post,
                                 parameters: param,
                                 encoding: JSONEncoding.default,
-                                headers: Header(authHelper).headers()).responseJSON()
+                                headers: HiveHeader(authHelper).headers()).responseJSON()
             let json = try VaultApi.handlerJsonResponse(response)
             let isRelogin = try VaultApi.handlerJsonResponseCanRelogin(json, tryAgain: tryAgain)
             if isRelogin {
@@ -342,14 +336,14 @@ public class DatabaseClient: DatabaseProtocol {
         }
     }
 
-    public func deleteOne(_ collection: String, _ filter: [String : Any], options: DeleteOptions) -> HivePromise<DeleteResult> {
-        return authHelper.checkValid().then { _ -> HivePromise<DeleteResult> in
+    public func deleteOne(_ collection: String, _ filter: [String : Any], options: DeleteOptions) -> Promise<DeleteResult> {
+        return authHelper.checkValid().then { _ -> Promise<DeleteResult> in
             return self.deleteOneImp(collection, filter, options, 0)
         }
     }
 
-    private func deleteOneImp(_ collection: String, _ filter: [String: Any], _ options: DeleteOptions, _ tryAgain: Int) -> HivePromise<DeleteResult>{
-        return HivePromise<DeleteResult> { resolver in
+    private func deleteOneImp(_ collection: String, _ filter: [String: Any], _ options: DeleteOptions, _ tryAgain: Int) -> Promise<DeleteResult>{
+        return Promise<DeleteResult> { resolver in
             var param = ["collection": collection, "filter": filter] as [String : Any]
             if try options.jsonSerialize().count != 0 {
                 param["options"] = try options.jsonSerialize()
@@ -359,7 +353,7 @@ public class DatabaseClient: DatabaseProtocol {
                                 method: .post,
                                 parameters: param,
                                 encoding: JSONEncoding.default,
-                                headers: Header(authHelper).headers()).responseJSON()
+                                headers: HiveHeader(authHelper).headers()).responseJSON()
             let json = try VaultApi.handlerJsonResponse(response)
             let isRelogin = try VaultApi.handlerJsonResponseCanRelogin(json, tryAgain: tryAgain)
             if isRelogin {
@@ -375,14 +369,14 @@ public class DatabaseClient: DatabaseProtocol {
         }
     }
 
-    public func deleteMany(_ collection: String, _ filter: [String : Any], options: DeleteOptions) -> HivePromise<DeleteResult> {
-        return authHelper.checkValid().then { _ -> HivePromise<DeleteResult> in
+    public func deleteMany(_ collection: String, _ filter: [String : Any], options: DeleteOptions) -> Promise<DeleteResult> {
+        return authHelper.checkValid().then { _ -> Promise<DeleteResult> in
             return self.deleteManyImp(collection, filter, options, 0)
         }
     }
 
-    private func deleteManyImp(_ collection: String, _ filter: [String: Any], _ options: DeleteOptions, _ tryAgain: Int) -> HivePromise<DeleteResult>{
-        return HivePromise<DeleteResult> { resolver in
+    private func deleteManyImp(_ collection: String, _ filter: [String: Any], _ options: DeleteOptions, _ tryAgain: Int) -> Promise<DeleteResult>{
+        return Promise<DeleteResult> { resolver in
             var param = ["collection": collection, "filter": filter] as [String : Any]
             if try options.jsonSerialize().count != 0 {
                 param["options"] = try options.jsonSerialize()
@@ -392,7 +386,7 @@ public class DatabaseClient: DatabaseProtocol {
                                 method: .post,
                                 parameters: param,
                                 encoding: JSONEncoding.default,
-                                headers: Header(authHelper).headers()).responseJSON()
+                                headers: HiveHeader(authHelper).headers()).responseJSON()
             let json = try VaultApi.handlerJsonResponse(response)
             let isRelogin = try VaultApi.handlerJsonResponseCanRelogin(json, tryAgain: tryAgain)
             if isRelogin {

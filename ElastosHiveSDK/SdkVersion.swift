@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2020 Elastos Foundation
+* Copyright (c) 2019 Elastos Foundation
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -22,20 +22,19 @@
 
 import Foundation
 
-/// Scripting file download call config
-public class DownloadCallConfig: CallConfig {
+public class SdkVersion: NSObject {
     
-    /// Construction method
-    /// - Parameter params: params
-    public convenience init(_ params: Dictionary<String, Any>) {
-        self.init(nil, params)
+    private let SDK_VERSION = "2.1.2"
+
+    private let COMMIT_BRANCH = "release-v2.1"
+    
+    /// Get version
+    public var version: String {
+        return SDK_VERSION
     }
     
-    /// Construction method
-    /// - Parameters:
-    ///   - appDid: appDid
-    ///   - params: params
-    public override init(_ appDid: String?, _ params: Dictionary<String, Any>?) {
-        super.init(appDid, params)
+    /// Get commit branch
+    public var commitBranch : String {
+        return COMMIT_BRANCH
     }
 }

@@ -15,6 +15,11 @@ class PaymentTest: XCTestCase {
         let lock = XCTestExpectation(description: "wait for test.")
         _ = payment?.getPaymentInfo().done{ info in
             print(info)// ETJqK7o7gBhzypmNJ1MstAHU2q77fo78jg
+            let infoStr = try! info.serialize()
+            print("info = \(infoStr)")
+            let data = infoStr.data(using: String.Encoding.utf8)
+            let dict = try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String : Any] 
+            print(dict)
             lock.fulfill()
         }.catch{ error in
             XCTFail()
@@ -112,9 +117,10 @@ class PaymentTest: XCTestCase {
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
         do {
-            user = try UserFactory.createUser1()
+            Log.setLevel(.Debug)
+            user = try AppInstanceFactory.createUser1()
             let lock = XCTestExpectation(description: "wait for test.")
-            user?.client.createVault(user!.ownerDid, user?.provider).done{ vault in
+            user?.client.getVault(user!.userFactoryOpt.ownerDid, user?.userFactoryOpt.provider).done{ vault in
 
                 self.payment = (vault.payment)
                 lock.fulfill()

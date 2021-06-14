@@ -21,28 +21,7 @@
 */
 
 import Foundation
-
-/// Scripting general call config
-public class GeneralCallConfig: CallConfig {
+public protocol AuthenticationAdapter {
     
-    /// Construction method
-    /// - Parameter params: params
-    public convenience init() {
-        self.init(nil, nil)
-    }
-    
-    /// Construction method
-    /// - Parameter params: params
-    public convenience init(_ params: Dictionary<String, Any>) {
-        self.init(nil, params)
-    }
-    
-    /// Construction method
-    /// - Parameters:
-    ///   - appDid: appDid
-    ///   - params: params
-    public override init(_ appDid: String?, _ params: Dictionary<String, Any>?) {
-        super.init(appDid, params!)
-    }
+    func authenticate(_ context: ApplicationContext, _ jwtToken: String) -> Promise<String>
 }
-
