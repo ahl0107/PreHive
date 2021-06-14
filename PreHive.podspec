@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
 
   s.name = 'PreHive'
-  s.version = '2.9'
+  s.version = '3.0.1'
   s.summary ='this is a test.'
   s.swift_version  = '4.2'
   s.description = 'this is a test.00000'
