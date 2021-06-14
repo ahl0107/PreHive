@@ -71,7 +71,8 @@ public class HiveClientHandle: NSObject {
         }
         _reslover = resolver
         _cacheDir = cacheDir
-        try DIDBackend.initializeInstance(_reslover, _cacheDir)
+//        try DIDBackend.initializeInstance(_reslover, _cacheDir)
+//        try DIDBackend.initialize()
         resolverDidSetup = true
         //ResolverCache.reset() // 删除了整个路径 ！！！！
     }
@@ -152,7 +153,7 @@ public class HiveClientHandle: NSObject {
                         resolver.reject(HiveError.didNotPublished(des: "did Not Published."))
                         return
                     }
-                    let services = doc?.selectServices(byType: "HiveVault")
+                    let services = try doc?.selectServices(byType: "HiveVault")
                     if services != nil && services!.count > 0 {
                         vaultProvider = services![0].endpoint
                     }

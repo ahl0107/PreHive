@@ -3,7 +3,7 @@ def import_pods
   #pod 'Swifter', '1.5.0'
   pod 'Alamofire', '~> 5.0'
   pod 'PromiseKit'
-  pod 'PreDID', '1.6.2'
+  pod 'PreDID', '3.0.2'
 
   pod 'BlueRSA', '~> 1.0'
   pod 'LoggerAPI', '~> 1.7'
